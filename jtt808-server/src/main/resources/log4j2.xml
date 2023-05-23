@@ -44,7 +44,7 @@
             <AppenderRef ref="Console"/>
         </logger>
 
-        <logger name="io.github.yezhihao.netmc.handler.UDPMessageAdapter" level="info">
+        <logger name="io.github.yezhihao.netmc.handler.UDPMessageAdapter" level="warn">
             <AppenderRef ref="AccessLog"/>
             <AppenderRef ref="Console"/>
         </logger>

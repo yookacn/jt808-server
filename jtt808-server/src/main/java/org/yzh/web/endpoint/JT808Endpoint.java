@@ -15,6 +15,7 @@ import org.yzh.protocol.t808.*;
 import org.yzh.web.model.entity.DeviceDO;
 import org.yzh.web.model.enums.SessionKey;
 import org.yzh.web.service.FileService;
+import org.yzh.web.service.MsgTransferService;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -31,6 +32,9 @@ public class JT808Endpoint {
     @Autowired
     private FileService fileService;
 
+    @Autowired
+    private MsgTransferService msgTransferService;
+
     @Mapping(types = 终端通用应答, desc = "终端通用应答")
     public Object T0001(T0001 message, Session session) {
         session.response(message);
@@ -44,6 +48,8 @@ public class JT808Endpoint {
     @Mapping(types = 终端注销, desc = "终端注销")
     public void T0003(JTMessage message, Session session) {
         session.invalidate();
+
+        msgTransferService.sendStatus(message);
     }
 
     @Mapping(types = 查询服务器时间, desc = "查询服务器时间")
@@ -66,6 +72,8 @@ public class JT808Endpoint {
         device.setPlateNo(message.getPlateNo());
         session.setAttribute(SessionKey.Device, device);
 
+        msgTransferService.sendStatus(message);
+
         T8100 result = new T8100();
         result.setResponseSerialNo(message.getSerialNo());
         result.setToken(message.getDeviceId() + "," + message.getPlateNo());
@@ -84,6 +92,8 @@ public class JT808Endpoint {
         if (token.length > 1)
             device.setPlateNo(token[1]);
         session.setAttribute(SessionKey.Device, device);
+
+        msgTransferService.sendStatus(message);
 
         T0001 result = new T0001();
         result.setResponseSerialNo(message.getSerialNo());
@@ -115,10 +125,14 @@ public class JT808Endpoint {
     @AsyncBatch(poolSize = 2, maxElements = 4000, maxWait = 1000)
     @Mapping(types = 位置信息汇报, desc = "位置信息汇报")
     public void T0200(List<T0200> list) {
+        for(T0200 pos: list) {
+            msgTransferService.sendData(pos);
+        }
     }
 
     @Mapping(types = 定位数据批量上传, desc = "定位数据批量上传")
     public void T0704(T0704 message) {
+        msgTransferService.sendData(message);
     }
 
     @Mapping(types = {位置信息查询应答, 车辆控制应答}, desc = "位置信息查询应答/车辆控制应答")
@@ -128,6 +142,7 @@ public class JT808Endpoint {
 
     @Mapping(types = 事件报告, desc = "事件报告")
     public void T0301(T0301 message, Session session) {
+        msgTransferService.sendEvent(message);
     }
 
     @Mapping(types = 提问应答, desc = "提问应答")
@@ -146,6 +161,7 @@ public class JT808Endpoint {
     @Mapping(types = 行驶记录数据上传, desc = "行驶记录仪数据上传")
     public void T0700(T0700 message, Session session) {
         session.response(message);
+        msgTransferService.sendData(message);
     }
 
     @Mapping(types = 电子运单上报, desc = "电子运单上报")
@@ -163,6 +179,7 @@ public class JT808Endpoint {
 
     @Mapping(types = 多媒体事件信息上传, desc = "多媒体事件信息上传")
     public void T0800(T0800 message, Session session) {
+        msgTransferService.sendEvent(message);
     }
 
     @Async

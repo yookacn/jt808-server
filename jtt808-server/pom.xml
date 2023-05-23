@@ -13,14 +13,6 @@
     <artifactId>jtt808-server</artifactId>
     <packaging>jar</packaging>
 
-    <url>https://gitee.com/yezhihao/jt808-server</url>
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
-
     <dependencies>
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
@@ -78,6 +70,26 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
+            <version>2.2.2</version>
+            <!-- 如果和当前项目使用的spring版本还有springBoot版本不一致，建议排除-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-webmvc</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
@@ -94,12 +106,9 @@
             <artifactId>mybatis-typehandlers-jsr310</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.22</version>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -137,18 +146,6 @@
                     <overwrite>true</overwrite>
                     <configurationFile>src/main/resources/generatorConfig.xml</configurationFile>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.mariadb.jdbc</groupId>
-                        <artifactId>mariadb-java-client</artifactId>
-                        <version>${mariadb.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.h2database</groupId>
-                        <artifactId>h2</artifactId>
-                        <version>${h2.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>

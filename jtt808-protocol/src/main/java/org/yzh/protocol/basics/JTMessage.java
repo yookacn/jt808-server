@@ -232,6 +232,7 @@ public class JTMessage implements Message {
         sb.append('[');
         sb.append("cid=").append(clientId);
         sb.append(",msgId=").append(messageId);
+        sb.append(",msgHexId=").append(Integer.toHexString(messageId));
         sb.append(",version=").append(protocolVersion);
         sb.append(",serialNo=").append(serialNo);
         sb.append(",props=").append(properties);
@@ -247,7 +248,6 @@ public class JTMessage implements Message {
 
     @Override
     public String toString() {
-        String result = ToStringBuilder.toString(toStringHead(), this, false, "messageId", "clientId", "protocolVersion", "serialNo", "properties", "packageTotal", "packageNo");
-        return result;
+        return ToStringBuilder.toString(toStringHead(), this, false, "messageId", "clientId", "protocolVersion", "serialNo", "properties", "packageTotal", "packageNo");
     }
 }
