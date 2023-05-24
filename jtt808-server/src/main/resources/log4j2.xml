@@ -31,22 +31,22 @@
     <Loggers>
         <Root level="info">
             <AppenderRef ref="AppLog"/>
-            <AppenderRef ref="Console"/>
+<!--            <AppenderRef ref="Console"/>-->
         </Root>
 
         <logger name="io.github.yezhihao.netmc.session.Session" level="info">
             <AppenderRef ref="AccessLog"/>
-            <AppenderRef ref="Console"/>
+<!--            <AppenderRef ref="Console"/>-->
         </logger>
 
         <logger name="io.github.yezhihao.netmc.handler.TCPMessageAdapter" level="info">
             <AppenderRef ref="AccessLog"/>
-            <AppenderRef ref="Console"/>
+<!--            <AppenderRef ref="Console"/>-->
         </logger>
 
         <logger name="io.github.yezhihao.netmc.handler.UDPMessageAdapter" level="warn">
             <AppenderRef ref="AccessLog"/>
-            <AppenderRef ref="Console"/>
+<!--            <AppenderRef ref="Console"/>-->
         </logger>
     </Loggers>
 </Configuration>
